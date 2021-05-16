@@ -76,11 +76,6 @@ export default class Hello extends Component {
         console.log('dropdownelements',this.state);
     }
 
-    options = this.state.dropDownSrc.map( item =>(
-        <option>{item}</option>
-    ))
-
-
     render() {
         return (
 
@@ -117,8 +112,6 @@ export default class Hello extends Component {
 
 
   <Form.Group>
-
-  <React.Fragment>
       <Form.Control as="select" id="disabledSelect">
        {
            this.state.dropDownSrc.map((item)=>{
@@ -126,7 +119,6 @@ export default class Hello extends Component {
            })
        }
       </Form.Control>
-      </React.Fragment>
 
     </Form.Group>
 
