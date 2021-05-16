@@ -7,7 +7,8 @@ export default class Hello extends Component {
         value: null,
         checkedCount:0,
         error: '',
-        dropDownSrc: ['select location']
+        dropDownSrc: ['select location','CHENNAI','BANGLORE','HAIDRABAD'],
+        selectedId: ''
     };
     
 
@@ -58,22 +59,30 @@ export default class Hello extends Component {
     setDropdownSrc = (event) =>{
 
 
+
+
         if(event.target.id=="offshore"){
 
             this.setState({
-                dropDownSrc: ['CHENNAI','BANGLORE','HAIDRABAD']
+                dropDownSrc: ['select location','CHENNAI','BANGLORE','HAIDRABAD'],
+                selectedId:''
             });
             //this.state.dropDownSrc = ['CHENNAI','BANGLORE','HAIDRABAD'];
         }
         else{
             this.setState({
-                dropDownSrc:  ['US','NON-US']
+                dropDownSrc:  ['select location','US','NON-US'],
+                selectedId:''
             });
             //this.state.dropDownSrc = ['US','NON-US'];
         }
 
 
         console.log('dropdownelements',this.state);
+    }
+
+    handleDropdown = (event)=>{
+        this.setState({selectedId:event.target.selectedId});
     }
 
     render() {
@@ -102,20 +111,20 @@ export default class Hello extends Component {
 
         <Form.Row>
     <Form.Group as={Col}>
-      <Form.Check type="radio" name="radio1" label="radio1" id="offshore" onClick={this.setDropdownSrc}/>
+      <Form.Check type="radio" name="radio1" label="Offshore" id="offshore" onClick={this.setDropdownSrc} defaultChecked/>
     </Form.Group>
  
     <Form.Group as={Col}>
-    <Form.Check type="radio"  name="radio1" label="radio1" id="onshore" onClick={this.setDropdownSrc}/>
+    <Form.Check type="radio"  name="radio1" label="Onshore" id="onshore" onClick={this.setDropdownSrc}/>
     </Form.Group>
   </Form.Row>
 
 
   <Form.Group>
-      <Form.Control as="select" id="disabledSelect">
+      <Form.Control as="select" id="disabledSelect" value={this.state.selectedId} onChange={this.handleDropdown}>
        {
            this.state.dropDownSrc.map((item)=>{
-           return <option>{item}</option>
+           return <option id={item}>{item}</option>
            })
        }
       </Form.Control>
