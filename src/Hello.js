@@ -82,7 +82,8 @@ export default class Hello extends Component {
     }
 
     handleDropdown = (event)=>{
-        this.setState({selectedId:event.target.selectedId});
+        console.log('selected id : ', event.target.value);
+        this.setState({selectedId:event.target.value});
     }
 
     render() {
