@@ -4,7 +4,7 @@ import { Button,Form,Col} from 'react-bootstrap';
 export default class Hello extends Component {
 
 	state = {
-        value: null,
+        firstname: null,
         checkedCount:0,
         error: '',
         dropDownSrc: ['select location','CHENNAI','BANGLORE','HAIDRABAD'],
@@ -14,11 +14,12 @@ export default class Hello extends Component {
 
     controlText = (e) =>{
         let value = e.target.value;
+        
 
         value = value.replace(/[^A-Za-z]/, "");
 
         this.setState({
-            value
+            firstname : value
         });
     }
 
@@ -86,13 +87,18 @@ export default class Hello extends Component {
         this.setState({selectedId:event.target.value});
     }
 
+    resetForm = (event)=>{
+        this.setState({firstname:''});
+    }
+
     render() {
         return (
 
             <div>
+                <Form>
             <Form.Group>
           <Form.Control type="text" placeholder="Large text" 
-          value={this.state.value}
+          value={this.state.firstname}
           onChange={this.controlText}
           />
           {this.minimuncondition}
@@ -108,7 +114,7 @@ export default class Hello extends Component {
                   <Form.Check type="checkbox" label="Check me 8" onChange={this.handleChecks} />
                   <Form.Check type="checkbox" label="Check me 9" onChange={this.handleChecks} />
                   <Form.Check type="checkbox" label="Check me 10" onChange={this.handleChecks} />
-        </Form.Group>
+        </Form.Group> 
 
         <Form.Row>
     <Form.Group as={Col}>
@@ -130,9 +136,11 @@ export default class Hello extends Component {
        }
       </Form.Control>
 
+       <Button onClick={this.resetForm} type="Reset">Reset</Button>
+
     </Form.Group>
 
-
+    </Form>
             </div>
         )
     }
