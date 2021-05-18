@@ -117,9 +117,9 @@ export default class Validation extends Component {
   checkAllValidations = () => {
     console.log('in all validations');
 
-    const { firstNameV, associate_IDV, project_IDV, selectedIdV, checkedCount, fileName, textAreaV } = this.state;
+    const { firstNameV, associate_IDV, project_IDV, selectedIdV, checkedCount, fileName, textAreaV,textArea } = this.state;
 
-    console.log(firstNameV, associate_IDV, project_IDV, selectedIdV, checkedCount);
+    console.log(firstNameV, associate_IDV, project_IDV, selectedIdV, checkedCount,textArea);
 
     if (firstNameV && associate_IDV && project_IDV && selectedIdV && checkedCount == 5 && fileName != null && textAreaV) {
       console.log('visible button');
@@ -215,6 +215,9 @@ export default class Validation extends Component {
         textAreaV: false,
 
         isSubmitDisabled: true
+      }, 
+      ()=>{
+        console.log("textArea : ",this.state.textArea);
       }
     );
   }
@@ -297,7 +300,7 @@ export default class Validation extends Component {
             </Form.Group>
 
             <Form.Group >
-              <Form.Control as="textarea" rows={3} name="textArea" placeholder="comments" value={this.state.textArea} onChange={this.handleChange} noValidate />
+              <Form.Control as="textarea" rows={3} name="textArea" placeholder="comments" value={this.state.textArea} onChange={this.handleChange} />
               {errors.textArea.length > 0 &&
                 <span Style="Color:red">{errors.textArea}</span>}
             </Form.Group>
