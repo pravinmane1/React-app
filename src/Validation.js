@@ -197,7 +197,7 @@ export default class Validation extends Component {
         firstName: '',
         associate_ID: null,
         project_ID: null,
-        textArea: null,
+        textArea: '',
         checkedCount: 0,
         dropDownSrc: ['select location', 'CHENNAI', 'BANGLORE', 'HAIDRABAD'],
         errors: {
