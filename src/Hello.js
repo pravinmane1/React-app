@@ -88,7 +88,7 @@ export default class Hello extends Component {
     }
 
     resetForm = (event)=>{
-        this.setState({firstname:''});
+        this.setState({firstname:null});
     }
 
     render() {
