@@ -26,6 +26,7 @@ export default class Validation extends Component {
         project_ID: '',
         textArea: '',
         checkedCount: '',
+        fileName:'',
       },
 
 
@@ -121,7 +122,7 @@ export default class Validation extends Component {
 
     console.log(firstNameV, associate_IDV, project_IDV, selectedIdV, checkedCount,textArea);
 
-    if (firstNameV && associate_IDV && project_IDV && selectedIdV && checkedCount == 5 && fileName != null && textAreaV) {
+    if (firstNameV && associate_IDV && project_IDV && selectedIdV && checkedCount >= 5 && fileName != null && textAreaV) {
       console.log('visible button');
       this.setState({ isSubmitDisabled: false });
     } else {
@@ -130,16 +131,16 @@ export default class Validation extends Component {
     }
   }
 
-  handleSubmit = (event) => {
+  // handleSubmit = (event) => {
 
-    console.log('firstnameV ', this.state.firstNameV);
-    event.preventDefault();
-    if (validateForm(this.state.errors)) {
-      console.info('Valid Form')
-    } else {
-      console.error('Invalid Form')
-    }
-  }
+  //   console.log('firstnameV ', this.state.firstNameV);
+  //   event.preventDefault();
+  //   if (validateForm(this.state.errors)) {
+  //     console.info('Valid Form')
+  //   } else {
+  //     console.error('Invalid Form')
+  //   }
+  // }
 
   handleChecks = (e) => {
 
@@ -147,19 +148,23 @@ export default class Validation extends Component {
 
     let factor = 0;
 
-    if (this.state.checkedCount < 5 && isChecked == true) {
+    if ( isChecked) {
       factor = 1;
       //this.state.checkedCount++;
     }
-    else if (isChecked == false) {
+    else  {
       factor = -1;
       //this.state.checkedCount--;
     }
-    else if (isChecked == true) {
-      e.target.checked = false;
-    }
 
-    this.setState({ checkedCount: this.state.checkedCount + factor }, () => this.checkAllValidations());
+    if(this.state.checkedCount+ factor >= 5 && this.state.fileName==null){
+      this.setState({ checkedCount: this.state.checkedCount + factor, errors: { ...this.state.errors, fileName: 'file required'} }, () => this.checkAllValidations());
+    }
+    else{
+      this.setState({ checkedCount: this.state.checkedCount + factor }, () => this.checkAllValidations());
+    }
+   
+
 
     console.log("currently checked checkboxes are : ", this.state.checkedCount);
 
@@ -225,7 +230,12 @@ export default class Validation extends Component {
 
   fileSelected = (e) => {
 
-    this.setState({ fileName: e.target.value }, () => {
+    let errorMsg = this.state.errors.fileName
+
+    if(e.target.value!=''){
+      errorMsg = '';
+    }
+    this.setState({ fileName: e.target.value, errors:{ ...this.state.errors, fileName: errorMsg} }, () => {
       console.log(this.state.fileName);
     }, () => this.checkAllValidations());
   }
@@ -236,8 +246,8 @@ export default class Validation extends Component {
       <div>
 
         <Container className="justify-content-md-center" border="dark" Style="Background-color:pink; width: 50rem;-top:10px">
-          <h1 className="head">COGNIZANT FORM</h1>
-          <Form onSubmit={this.handleSubmit} autoComplete="off" noValidate>
+          <h1 className="head" >COGNIZANT FORM</h1>
+          <Form onSubmit={this.handleSubmit} autoComplete="off" noValidate  method='get'>
             <Form.Group>
               <Form.Control type="text" name="firstName" placeholder="Associate Name" value={this.state.firstName || ""}
                 onChange={this.handleChange} maxLength="31" noValidate />
@@ -271,7 +281,8 @@ export default class Validation extends Component {
 
             </Form.Group>
             <Form.Row >
-
+            {this.state.checkedCount < 5 && this.state.checkedCount != 0 &&
+                <span Style="Color:red">Minimum 5 checkboxes Required</span>}
               <Form.Group as={Col}>
                 <Form.Check type="checkbox" name="chk" label="HTML5,CSS3,JS" onChange={this.handleChecks} />
                 <Form.Check type="checkbox" name="chk" label="SASS" onChange={this.handleChecks} />
@@ -297,6 +308,8 @@ export default class Validation extends Component {
 
             <Form.Group>
               <Form.File id="exampleFormControlFile1" label="Example file input" value={this.state.fileName} onChange={this.fileSelected} />
+              {errors.fileName.length > 0 &&
+                <span Style="Color:red">{errors.fileName}</span>}
             </Form.Group>
 
             <Form.Group >
@@ -305,7 +318,7 @@ export default class Validation extends Component {
                 <span Style="Color:red">{errors.textArea}</span>}
             </Form.Group>
 
-            <Button variant="primary" type="submit" onClick={this.handleSubmit} disabled={this.state.isSubmitDisabled}>
+            <Button variant="primary" type="submit"  disabled={this.state.isSubmitDisabled}>
               Submit
   </Button>
 
